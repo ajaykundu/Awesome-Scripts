@@ -8,6 +8,7 @@ Created on Fri Apr 20 16:17:19 2018
 import numpy as np
 import cv2
 import time
+import os
 
 
 starttime = time.time()
@@ -15,7 +16,10 @@ cap = cv2.VideoCapture(0) # video capture source camera (Here webcam of laptop)
 
 # i is an integer to give numbering to captured image.
 i=0;
-
+location = os.getcwd()
+directory = 'images'
+if not os.path.exists(directory):
+	os.makedirs(directory)
 
 while(cap.isOpened()):
     # Read frame to capture an image.
@@ -25,10 +29,9 @@ while(cap.isOpened()):
     cv2.imshow('frame',frame)
     
     # location where you want to store your images.
-    location = 'C:/Users/Dell/Documents/GitHub/capstoneproject/images/photo'+str(i)+'.png'
     
     # write frame on specified location.
-    cv2.imwrite(location,frame)
+    cv2.imwrite(location+'/images/photo'+str(i)+'.png',frame)
     
     # var going to store after what time your while loop should stop.
     var = time.time() - starttime  
