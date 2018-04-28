@@ -27,7 +27,7 @@ while(cap.isOpened()):
     
     # To show an image in window.
     cv2.imshow('frame',frame)
-    
+   
     # location where you want to store your images.
     
     # write frame on specified location.
@@ -44,6 +44,8 @@ while(cap.isOpened()):
     #you can change the sleeping time if you want. 0.005 sec which is currently set.
     time.sleep(0.005)
     i = i+1  
+
+    cv2.putText(frame, var, (10,20),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
     
 # Release everything if job is finished
 cap.release()
