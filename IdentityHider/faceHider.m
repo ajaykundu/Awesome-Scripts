@@ -18,10 +18,11 @@ runLoop = true;
 numPts = 0;
 frameCount = 0;
 
-while runLoop && frameCount < 1000
+while runLoop && frameCount < 5000
 
     % Get the next frame.
     videoFrame = snapshot(cam);
+    size(videoFrame)
     videoFrameGray = rgb2gray(videoFrame);
     frameCount = frameCount + 1;
 
@@ -53,9 +54,40 @@ while runLoop && frameCount < 1000
             bboxPolygon = reshape(bboxPoints', 1, []);
 
             % Display a bounding box around the detected face.
-            imageplacing = 'FilledPolygon';
+            imageplacing = 'Polygon';
            % videoFrame = insertShape(videoFrame, imageplacing, bboxPolygon, 'LineWidth', 3);
-
+           bboxPolygon;
+            ltx = round(bboxPolygon(1));
+            lty = round(bboxPolygon(2));
+            lbx = round(bboxPolygon(3));
+            lby = round(bboxPolygon(4));
+            rbx = round(bboxPolygon(5));
+            rby = round(bboxPolygon(6));
+            rtx = round(bboxPolygon(7));
+            rty = round(bboxPolygon(8));
+            
+            numrows = round(lbx - ltx);
+            numrows = numrows + 5;
+            numcolms =round(rty - lty);
+            numcolms = numrows + 5;
+            
+            img = imresize(img,[numrows numcolms]);
+            size(videoFrame);
+           
+            for k=1:3
+                for i=ltx:lbx
+                    for j=lty:rty   
+                        
+                       if img((j-lty + 1),(i-ltx + 1),k)>10 && (i<540 && j<480) && (i>0 && j>150) 
+                       videoFrame(j-150,i+100,k) = videoFrame(j,i,k);     
+                       end
+                       if img((j-lty + 1),(i-ltx + 1),k)>20 && (i<640 && j<480) && (i>0 && j>0) 
+                       videoFrame(j,i,k) = img((j-lty + 1),(i-ltx + 1),k);
+                       end
+                    end
+                end
+            end
+            
             % Display detected corners.
             %videoFrame = insertMarker(videoFrame, xyPoints, '+', 'Color', 'white');
         end
@@ -79,12 +111,12 @@ while runLoop && frameCount < 1000
 
             % Convert the box corners into the [x1 y1 x2 y2 x3 y3 x4 y4]
             % format required by insertShape.
-            bboxPoints
+            bboxPoints;
             bboxPolygon = reshape(bboxPoints', 1, []);
 
             % Display a bounding box around the face being tracked.
-            %videoFrame = insertShape(videoFrame, imageplacing, bboxPolygon, 'LineWidth', 3);
-            bboxPolygon
+           % videoFrame = insertShape(videoFrame, imageplacing, bboxPolygon, 'LineWidth', 3);
+            bboxPolygon;
             ltx = round(bboxPolygon(1));
             lty = round(bboxPolygon(2));
             lbx = round(bboxPolygon(3));
@@ -95,22 +127,26 @@ while runLoop && frameCount < 1000
             rty = round(bboxPolygon(8));
             
             numrows = round(lbx - ltx);
-            numrows = numrows + 5
+            numrows = numrows + 5;
             numcolms =round(rty - lty);
-            numcolms = numrows + 5
+            numcolms = numrows + 5;
             
             img = imresize(img,[numrows numcolms]);
-            size(videoFrame)
+            size(videoFrame);
+           videoFrame(lty:rty,ltx:lbx,1:3) =  imgaussfilt(videoFrame(lty:rty,ltx:lbx,1:3), 2);
+             %videoFrame =imgaussfilt(videoFrame(ltx:lbx,lty:rty), 2);
             for k=1:3
                 for i=ltx:lbx
                     for j=lty:rty   
-                       if img((j-lty + 1),(i-ltx + 1),k)>10      
+                        if img((j-lty + 1),(i-ltx + 1),k)>10 && (i<540 && j<480) && (i>0 && j>150) 
+                       videoFrame(j-150,i+100,k) = videoFrame(j,i,k);     
+                       end
+                       if img((j-lty + 1),(i-ltx + 1),k)>20 && (i<640 && j<480) && (i>0 && j>0) 
                        videoFrame(j,i,k) = img((j-lty + 1),(i-ltx + 1),k);
                        end
                     end
                 end
             end
-            
             
             % Display tracked points.
            % videoFrame = insertMarker(videoFrame, visiblePoints, '+', 'Color', 'white');
@@ -121,7 +157,8 @@ while runLoop && frameCount < 1000
         end
 
     end
-
+   % imgaussfilt(I, 2);
+   
     % Display the annotated video frame using the video player object.
     step(videoPlayer, videoFrame);
 
