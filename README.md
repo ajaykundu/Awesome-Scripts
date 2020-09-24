@@ -3,10 +3,10 @@ This repository contain some of computer vision algorithm which are helpful in y
 
 
 <h3> CaptureMultiplePics </h3>
-This python algo capture upto 400 pics in 20 seconds.
+  This python algo capture upto 400 pics in 20 seconds.
 
 <h3> IdentityHider </h3>
-This script will replace your face with Emoji which helps you to keep your identity safe.
+  This script will replace your face with Emoji which helps you to keep your identity safe.
 
 <h3> Wake Your Lappy</h3>
-It is a python script which keeps your laptop in wake mode even you are not working.
+  It is a python script which keeps your laptop in wake mode even you are not working.
