@@ -2,7 +2,7 @@
 """
 Created on Thu Sep 24 10:32:51 2020
 
-@author: ajkundu
+@author: Ajay Kundu
 """
 
 import pyautogui 
